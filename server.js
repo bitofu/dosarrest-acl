@@ -4,7 +4,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var database = [{action: 'Allow', ip: '1.1.1.1', cidr: '32'}, {action: 'Deny', ip: '1.1.1.2', cidr: '16'}];
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 4000);
 app.use(express.static(__dirname + '/public'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}));

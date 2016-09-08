@@ -1,10 +1,10 @@
 'use strict';
 
 angular
-  .module('aclController', ['dndLists'])
-  .controller('aclController', aclController);
+  .module('AclController', ['dndLists'])
+  .controller('AclController', AclController);
 
-function aclController($scope, $http) {
+function AclController($scope, $http) {
   $scope.actions = ['Deny', 'Allow'];
   $scope.cidrChoices = [32,28,24,21,16,8];
   // use to edit potential touch dnd
@@ -36,16 +36,16 @@ function aclController($scope, $http) {
     $scope.insertIndex = index;
     // $first not working?? so newItem is modified
     $scope.newItem = {action: $scope.actions[0], ip: '', cidr: $scope.cidrChoices[0]};
-    $scope.editedItem = null;
+    $scope.currentItem = null;
   };
 
   $scope.editItem = function(item) {
     $scope.hoverable = false;
     $scope.addNew = false;
     $scope.insertIndex = '';
-    $scope.editedItem = item;
+    $scope.currentItem = item;
     $scope.originalItem = angular.copy(item);
-    $scope.newItem = angular.extend({}, item);
+    $scope.changeItem = angular.extend({}, item);
   };
 
   $scope.deleteItem = function(index) {
@@ -62,7 +62,7 @@ function aclController($scope, $http) {
     $scope.hoverable = true;
     // check if there are any changes
     if ($scope.originalItem != null && item.action === $scope.originalItem.action && item.ip === $scope.originalItem.ip && item.cidr === $scope.originalItem.cidr) {
-        $scope.editedItem = null;
+        $scope.currentItem = null;
         return;
     };
     $http.put('/api/acl', {item: item, index: index})

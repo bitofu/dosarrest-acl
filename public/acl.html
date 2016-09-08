@@ -40,7 +40,7 @@
         layout="row"
         layout-wrap>
         <div layout="row" layout-align="center center" flex="100">
-          <md-card class="ng-hide" ng-show="item != editedItem" layout="row" layout-align="start center" layout-wrap flex>
+          <md-card class="ng-hide" ng-show="item != currentItem" layout="row" layout-align="start center" layout-wrap flex>
             <md-button class="md-icon-button" md-no-ink="true" aria-label="Drag Icon">
               <md-icon md-font-icon="zmdi zmdi-format-line-spacing"></md-icon>
             </md-button>
@@ -57,24 +57,24 @@
             </div>
           </md-card>
           <!-- edit form -->
-          <md-card class="ng-hide" ng-show="item === editedItem" flex>
-            <form name="aclForm" ng-submit="saveItem(newItem, $index)" layout="row" layout-xs="column" novalidate>
+          <md-card class="ng-hide" ng-show="item === currentItem" flex>
+            <form name="aclEditForm" ng-submit="saveItem(changeItem, $index)" layout="row" layout-xs="column" novalidate>
               <md-input-container class="md-block" flex-offset-gt-xs="5" flex-gt-xs="10">
                 <label>action</label>
-                <md-select ng-model="newItem.action">
+                <md-select ng-model="changeItem.action">
                   <md-option ng-repeat="action in actions" value="{{action}}">{{action}}</md-option>
                 </md-select>
               </md-input-container>
               <md-input-container class="md-block">
                 <label>ip address</label>
-                <input class="ip-input" required ng-model="newItem.ip" type="text" ng-require="true" ng-pattern="'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^all$|^All$|^ALL$'">
+                <input class="ip-input" required ng-model="changeItem.ip" type="text" ng-require="true" ng-pattern="'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^all$|^All$|^ALL$'">
                 <div class="hint" ng-show="aclForm.$invalid" hide-xs>
                   <small class="md-caption">Please enter a valid ip.</small>
                 </div>
               </md-input-container>
               <md-input-container class="md-block">
                 <label>cidr</label>
-                <md-select ng-model="newItem.cidr">
+                <md-select ng-model="changeItem.cidr">
                   <md-option ng-repeat="cidr in cidrChoices" value="{{cidr}}">{{cidr}}</md-option>
                 </md-select>
               </md-input-container>
@@ -96,7 +96,7 @@
         <!-- new form -->
         <div class="ng-hide" ng-show="$index === insertIndex" layout="row" flex="100">
           <md-card flex>
-            <form name="aclForm" ng-submit="createItem(newItem, $index)" layout="row" layout-xs="column" novalidate>
+            <form name="aclNewForm" ng-submit="createItem(newItem, $index)" layout="row" layout-xs="column" novalidate>
               <md-input-container class="md-block" flex-offset-gt-xs="5" flex-gt-xs="10">
                 <label>action</label>
                 <md-select ng-model="newItem.action">
