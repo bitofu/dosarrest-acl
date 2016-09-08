@@ -1,0 +1,137 @@
+<md-content class="md-padding" layout="column">
+  <div flex>
+    <h2 class="md-headline" flex-offset="5">ACL <span hide show-gt-sm>(Access Control List)</span></h2>
+    <md-list layout="column" hide show-gt-sm>
+      <md-list-item>
+        <md-icon class="zmdi zmdi-block-alt zmdi-hc-lg"></md-icon>
+        This feature enables you to restrict access to your website by IP address or group of IP addresses. You can manage the order they are applied by dragging and dropping the address blocks you have defined.
+      </md-list-item>
+      <md-list-item>
+        <md-icon class="zmdi zmdi-key zmdi-hc-lg"></md-icon>
+        Use this feature to restrict access to a specific area of your website, for example “/admin-login” in this case first create a URI then add the feature to the URI you have created.
+      </md-list-item>
+      <div layout="row" layout-align="center center">
+        <div flex="10">
+          <md-subheader class="md-no-sticky">TIP</md-subheader>
+        </div>
+        <div flex>
+          <md-list-item>
+            If you’d like to set up an ACL to deny all users, select “deny” and type in “all” into the IP field, and leave the CIDR as is when adding.
+          </md-list-item>
+          <md-list-item>
+            You can also block single IP addresses that are sending significant traffic to your site from the “Birds Eye View” on the dashboard. Once blocked it will automatically create an ACL under the manage webserver view here and you can delete the ACL here as well.
+          </md-list-item>
+        </div>
+      </div>
+    </md-list>
+  </div>
+  <md-divider></md-divider>
+  <div layout="column" layout-padding flex>
+    <md-list dnd-list="acl" dnd-inserted="dragItem(index)" flex>
+      <md-list-item
+        ng-repeat="item in acl"
+        ng-mouseenter="hoverAddBtn(true, $index)"
+        ng-mouseleave="hoverAddBtn(false, null)"
+        dnd-draggable="item"
+        dnd-disable-if="!hoverable"
+        dnd-effect-allowed="move"
+        dnd-dragstart="dragging($index)"
+        dnd-moved="acl.splice($index, 1)"
+        layout="row"
+        layout-wrap>
+        <div layout="row" layout-align="center center" flex="100">
+          <md-card class="ng-hide" ng-show="item != editedItem" layout="row" layout-align="start center" layout-wrap flex>
+            <md-button class="md-icon-button" md-no-ink="true" aria-label="Drag Icon">
+              <md-icon md-font-icon="zmdi zmdi-format-line-spacing"></md-icon>
+            </md-button>
+            <div class="md-list-item-text" flex-gt-xs="10" flex-xs="25">{{item.action}}</div>
+            <div class="md-list-item-text">{{item.ip + ' / ' + item.cidr}}</div>
+            <span hide-xs flex></span>
+            <div layout="row" layout-align="end center">
+              <md-button class="md-icon-button" ng-click="editItem(item)" aria-label="Edit Icon">
+                <md-icon md-font-icon="zmdi zmdi-edit"></md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="deleteItem($index)" aria-label="Delete Icon">
+                <md-icon md-font-icon="zmdi zmdi-delete"></md-icon>
+              </md-button>
+            </div>
+          </md-card>
+          <!-- edit form -->
+          <md-card class="ng-hide" ng-show="item === editedItem" flex>
+            <form name="aclForm" ng-submit="saveItem(newItem, $index)" layout="row" layout-xs="column" novalidate>
+              <md-input-container class="md-block" flex-offset-gt-xs="5" flex-gt-xs="10">
+                <label>action</label>
+                <md-select ng-model="newItem.action">
+                  <md-option ng-repeat="action in actions" value="{{action}}">{{action}}</md-option>
+                </md-select>
+              </md-input-container>
+              <md-input-container class="md-block">
+                <label>ip address</label>
+                <input class="ip-input" required ng-model="newItem.ip" type="text" ng-require="true" ng-pattern="'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^all$|^All$|^ALL$'">
+                <div class="hint" ng-show="aclForm.$invalid" hide-xs>
+                  <small class="md-caption">Please enter a valid ip.</small>
+                </div>
+              </md-input-container>
+              <md-input-container class="md-block">
+                <label>cidr</label>
+                <md-select ng-model="newItem.cidr">
+                  <md-option ng-repeat="cidr in cidrChoices" value="{{cidr}}">{{cidr}}</md-option>
+                </md-select>
+              </md-input-container>
+              <span flex></span>
+              <div layout="row" layout-align="end center">
+                <md-button class="md-icon-button" type="submit" ng-disabled="aclForm.$invalid" aria-label="Save Icon">
+                  <md-icon md-font-icon="zmdi zmdi-check"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="item = originalItem" aria-label="Delete Icon">
+                  <md-icon md-font-icon="zmdi zmdi-close"></md-icon>
+                </md-button>
+              </div>
+            </form>
+          </md-card>
+          <md-button class="md-icon-button insert-new" ng-show="true" ng-click="insertItem($index)" aria-label="Insert New">
+            <md-icon md-font-icon="zmdi zmdi-plus-square"></md-icon>
+          </md-button>
+        </div>
+        <!-- new form -->
+        <div class="ng-hide" ng-show="$index === insertIndex" layout="row" flex="100">
+          <md-card flex>
+            <form name="aclForm" ng-submit="createItem(newItem, $index)" layout="row" layout-xs="column" novalidate>
+              <md-input-container class="md-block" flex-offset-gt-xs="5" flex-gt-xs="10">
+                <label>action</label>
+                <md-select ng-model="newItem.action">
+                  <md-option ng-repeat="action in actions" ng-selected="$first" value="{{action}}">{{action}}</md-option>
+                </md-select>
+              </md-input-container>
+              <md-input-container class="md-block">
+                <label>ip address</label>
+                <input class="ip-input" required ng-model="newItem.ip" type="text" ng-require="true" ng-pattern="'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^all$|^All$|^ALL$'">
+                <div class="hint" ng-show="aclForm.$invalid" hide-xs>
+                  <small class="md-caption">Please enter a valid ip.</small>
+                </div>
+              </md-input-container>
+              <md-input-container class="md-block">
+                <label>cidr</label>
+                <md-select ng-model="newItem.cidr">
+                  <md-option ng-repeat="cidr in cidrChoices" ng-selected="$first" value="{{cidr}}">{{cidr}}</md-option>
+                </md-select>
+              </md-input-container>
+              <span flex></span>
+              <div layout="row" layout-align="end center">
+                <md-button class="md-icon-button" type="submit" ng-disabled="aclForm.$invalid" aria-label="Save Icon">
+                  <md-icon md-font-icon="zmdi zmdi-check"></md-icon>
+                </md-button>
+                <md-button class="md-icon-button" ng-click="closeAll()" aria-label="Delete Icon">
+                  <md-icon md-font-icon="zmdi zmdi-close"></md-icon>
+                </md-button>
+              </div>
+            </form>
+          </md-card>
+          <md-button class="md-icon-button" style="visibility: hidden;" aria-label="No Functionality">
+            <md-icon md-font-icon="zmdi zmdi-plus-square"></md-icon>
+          </md-button>
+        </div>
+      </md-list-item>
+    </md-list>
+  </div>
+</md-content>

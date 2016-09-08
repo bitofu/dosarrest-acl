@@ -1,0 +1,21 @@
+{
+  "name": "dosarrest_acl_component",
+  "version": "0.0.1",
+  "description": "dosarrest acl component",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "start": "nodemon server.js",
+    "test": "test"
+  },
+  "author": "Vincent Sung",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.10.2"
+  }
+}

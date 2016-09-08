@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="dosArrest">
+  <head>
+    <meta charset="utf-8">
+    <title>dosarrest-acl</title>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <!-- Angular Material Dependencies -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.3.1/angular-ui-router.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+    <!-- Angular DND with shim -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-drag-and-drop-lists/1.4.0/angular-drag-and-drop-lists.min.js"></script>
+    <script>var iosDragDropShim = { enableEnterLeave: true }</script>
+    <script src="./js/ios-drag-drop.js"></script>
+    <!-- app scripts -->
+    <script src="./js/controllers/aclController.js"></script>
+    <script src="./js/services/aclService.js"></script>
+    <script src="app.js"></script>
+    <link rel="stylesheet" href="./css/app.css">
+    <meta name="viewport" content="initial-scale=1" />
+  </head>
+  <body ng-cloak>
+    <section ng-controller="aclController" ng-include="'acl.html'" flex="80" flex-offset="10"></section>
+  </body>
+</html>
