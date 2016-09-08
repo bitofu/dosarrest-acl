@@ -68,7 +68,7 @@
               <md-input-container class="md-block">
                 <label>ip address</label>
                 <input class="ip-input" required ng-model="changeItem.ip" type="text" ng-require="true" ng-pattern="'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^all$|^All$|^ALL$'">
-                <div class="hint" ng-show="aclForm.$invalid" hide-xs>
+                <div class="hint" ng-show="aclEditForm.$invalid" hide-xs>
                   <small class="md-caption">Please enter a valid ip.</small>
                 </div>
               </md-input-container>
@@ -80,7 +80,7 @@
               </md-input-container>
               <span flex></span>
               <div layout="row" layout-align="end center">
-                <md-button class="md-icon-button" type="submit" ng-disabled="aclForm.$invalid" aria-label="Save Icon">
+                <md-button class="md-icon-button" type="submit" ng-disabled="aclEditForm.$invalid" aria-label="Save Icon">
                   <md-icon md-font-icon="zmdi zmdi-check"></md-icon>
                 </md-button>
                 <md-button class="md-icon-button" ng-click="item = originalItem; hoverable = true" aria-label="Delete Icon">
@@ -106,7 +106,7 @@
               <md-input-container class="md-block">
                 <label>ip address</label>
                 <input class="ip-input" required ng-model="newItem.ip" type="text" ng-require="true" ng-pattern="'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$|^all$|^All$|^ALL$'">
-                <div class="hint" ng-show="aclForm.$invalid" hide-xs>
+                <div class="hint" ng-show="aclNewForm.$invalid" hide-xs>
                   <small class="md-caption">Please enter a valid ip.</small>
                 </div>
               </md-input-container>
@@ -118,7 +118,7 @@
               </md-input-container>
               <span flex></span>
               <div layout="row" layout-align="end center">
-                <md-button class="md-icon-button" type="submit" ng-disabled="aclForm.$invalid" aria-label="Save Icon">
+                <md-button class="md-icon-button" type="submit" ng-disabled="aclNewForm.$invalid" aria-label="Save Icon">
                   <md-icon md-font-icon="zmdi zmdi-check"></md-icon>
                 </md-button>
                 <md-button class="md-icon-button" ng-click="closeAll()" aria-label="Delete Icon">
